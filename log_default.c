@@ -1,7 +1,7 @@
 
 #include "log_default.h"
 
-int default_log_obj_op_init(struct log_obj *_obj) {
+static int default_log_obj_op_init(struct log_obj *_obj) {
   if(_obj) {
 #if LOG_MUTEX_ENABLE
     LOG_MUTEX_INIT(&_obj->_mutex);
@@ -11,7 +11,8 @@ int default_log_obj_op_init(struct log_obj *_obj) {
     if(_property) {
       if(_property->_file_name) {
         _property->_fp = fopen(_property->_file_name, "a+");
-      } else {
+      }
+      if(!_property->_fp) {
         _property->_fp = stdout;
       }
     }
@@ -20,7 +21,7 @@ int default_log_obj_op_init(struct log_obj *_obj) {
   return 0;
 }
 
-int default_log_obj_op_exit(struct log_obj* _obj) {
+static int default_log_obj_op_exit(struct log_obj* _obj) {
 
   if(_obj) {
 
@@ -32,7 +33,9 @@ int default_log_obj_op_exit(struct log_obj* _obj) {
     if(_property) {
       if(_property->_file_name) {
         if(_property->_fp) {
-          fclose(_property->_fp);
+          if(_property->_fp != stdout) {
+            fclose(_property->_fp);
+          }
         }
       }
     }
@@ -40,7 +43,7 @@ int default_log_obj_op_exit(struct log_obj* _obj) {
   return 0;
 }
 
-int default_log_obj_op_mutex_lock(struct log_obj* _obj) {
+static int default_log_obj_op_mutex_lock(struct log_obj* _obj) {
   if(_obj) {
 #if LOG_MUTEX_ENABLE
     LOG_MUTEX_LOCK(&_obj->_mutex);
@@ -49,7 +52,7 @@ int default_log_obj_op_mutex_lock(struct log_obj* _obj) {
   return 0;
 }
 
-int default_log_obj_op_mutex_unlock(struct log_obj* _obj) { 
+static int default_log_obj_op_mutex_unlock(struct log_obj* _obj) { 
   if(_obj) {
 #if LOG_MUTEX_ENABLE
     LOG_MUTEX_UNLOCK(&_obj->_mutex);
@@ -59,7 +62,7 @@ int default_log_obj_op_mutex_unlock(struct log_obj* _obj) {
 }
 
 
-int default_log_obj_op_printf(struct log_obj* _obj, char* _buf) {
+static int default_log_obj_op_printf(struct log_obj* _obj, char* _buf) {
 
   int ret = 0;
   if(_obj) {
@@ -74,9 +77,8 @@ int default_log_obj_op_printf(struct log_obj* _obj, char* _buf) {
 };
 
 
-
-struct default_log_obj_property default_log_obj_default_property = {
-  ._fp = 0,
+static struct default_log_obj_property default_log_obj_default_property = {
+  ._fp = NULL,
   ._file_name = DEFAULT_LOG_FILE_NAME,
 };
 

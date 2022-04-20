@@ -9,12 +9,7 @@ struct default_log_obj_property {
   char* _file_name;
 };
 
-extern int default_log_obj_op_init(struct log_obj* _obj);
-extern int default_log_obj_op_exit(struct log_obj* _obj);
-extern int default_log_obj_op_mutex_lock(struct log_obj* _obj);
-extern int default_log_obj_op_mutex_unlock(struct log_obj* _obj);
-extern int default_log_obj_op_printf(struct log_obj* _obj, char* _buf);
-
+extern struct log_obj_operations default_log_obj_default_operations;
 extern struct log_obj default_log_obj;
 
 #define LOG_ERROR(tag, format, ...) \

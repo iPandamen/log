@@ -2,9 +2,7 @@
 #ifndef __LOG_CONFIG_H__
 #define __LOG_CONFIG_H__
 
-#include "log_types.h"
-
-#define DEFAULT_LOG_FILE_NAME "log.log"
+#define DEFAULT_LOG_FILE_NAME NULL
 
 #define LOG_LEVEL LOG_LEVEL_VERBOSE
 
