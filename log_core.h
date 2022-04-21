@@ -28,6 +28,10 @@ extern int log_add(struct log_obj* _log, int _level, const char* const _tag,
                      const char* _file, const char* _func, int _line,
                      const char* const format, ...) __attribute__((format(printf, 7, 8)));
 
+#define THIS_FILE (strrchr(__FILE__, '/') + 1)
+
+#if LOG_ENABLE
+
 #define LOG_OBJ_REGISTER(_obj) \
   do {                 \
     log_obj_register(_obj);   \
@@ -43,8 +47,6 @@ extern int log_add(struct log_obj* _log, int _level, const char* const _tag,
     log_end();     \
   } while (0)
 
-#define THIS_FILE (strrchr(__FILE__, '/') + 1)
-
 #define LOG(log, level, tag, format, ...)                                 \
   do {                                                                    \
     if (level <= LOG_LEVEL) {                                             \
@@ -53,5 +55,13 @@ extern int log_add(struct log_obj* _log, int _level, const char* const _tag,
     }                                                                     \
   } while (0)
 
+#else
+
+#define LOG_OBJ_REGISTER(_obj)
+#define LOG_START()
+#define LOG_END()
+#define LOG(log, level, tag, format, ...)
+
+#endif
 
 #endif /* __LOG_H__ */

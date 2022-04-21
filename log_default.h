@@ -15,7 +15,7 @@ extern struct log_obj default_log_obj;
 #define LOG_ERROR(tag, format, ...) \
   LOG(&default_log_obj, LOG_LEVEL_ERROR, tag, format, ##__VA_ARGS__)
 #define LOG_WARNING(tag, format, ...) \
-  LOG(&default_log_obj, LOG_LEVEL_WARN, tag, format, ##__VA_ARGS__)
+  LOG(&default_log_obj, LOG_LEVEL_WARNING, tag, format, ##__VA_ARGS__)
 #define LOG_INFO(tag, format, ...) \
   LOG(&default_log_obj, LOG_LEVEL_INFO, tag, format, ##__VA_ARGS__)
 #define LOG_DEBUG(tag, format, ...) \

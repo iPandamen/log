@@ -2,11 +2,12 @@
 #ifndef __LOG_CONFIG_H__
 #define __LOG_CONFIG_H__
 
+#define LOG_ENABLE 1
+#define LOG_MUTEX_ENABLE 1
+
 #define DEFAULT_LOG_FILE_NAME NULL
 
 #define LOG_LEVEL LOG_LEVEL_VERBOSE
-
-#define LOG_MUTEX_ENABLE 1
 
 #if LOG_MUTEX_ENABLE
 
@@ -20,10 +21,6 @@
 #  define LOG_MUTEX_UNLOCK(mutex) pthread_mutex_unlock(mutex);
 
 #endif
-
-
-
-
 
 #endif /* __LOG_CONFIG_H__ */
 

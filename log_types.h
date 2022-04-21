@@ -1,7 +1,6 @@
 #ifndef __LOG_TYPE_H__
 #define __LOG_TYPE_H__
 
-
 #include "log_config.h"
 
 struct log_obj_operations;
@@ -26,7 +25,7 @@ struct log_obj {
 
   struct log_obj_operations *_op;
   struct log_obj *_next;
-} log_obj_t;
+};
 
 
 struct log_obj_list{
