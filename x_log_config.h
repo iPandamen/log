@@ -2,14 +2,28 @@
 #ifndef __LOG_CONFIG_H__
 #define __LOG_CONFIG_H__
 
+
+
+
+#ifndef  X_LOG_ENABLE
 #define X_LOG_ENABLE 1
-#define XLOG_MUTEX_ENABLE 1
+#endif /* X_LOG_ENABLE */
 
+
+#ifndef X_LOG_DEFAULT_FILE_NAME
 #define X_LOG_DEFAULT_FILE_NAME NULL
+#endif /* X_LOG_DEFAULT_FILE_NAME */
 
-#define X_LOG_LEVEL X_LOG_LEVEL_VERBOSE
+#ifndef X_LOG_LEVEL
+#define X_LOG_LEVEL X_LOG_LEVEL_WARNING
+#endif /* X_LOG_LEVEL */
 
-#if LOG_MUTEX_ENABLE
+
+#ifndef X_LOG_MUTEX_ENABLE
+#define X_LOG_MUTEX_ENABLE 0
+#endif /*  X_LOG_MUTEX_ENABLE */
+
+#if X_LOG_MUTEX_ENABLE
 
 #include <pthread.h>
 
