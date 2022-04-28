@@ -9,7 +9,7 @@ PROJECT_ROOT_PATH = ${PWD}
 # SUB_DIRS = ../n_lib/cJSON ../n_lib/x_string ../n_lib/x_log ../n_lib/x_protocol
 # VPATH += ${SUB_DIRS} \
 
-C_SOURCES =  ./log_core.c ./log_default.c 
+C_SOURCES =  ./x_log_core.c ./x_log.c 
 
 C_OBJECTS = $(patsubst %.c, %.o, ${C_SOURCES})
 
