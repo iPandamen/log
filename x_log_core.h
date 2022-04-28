@@ -20,7 +20,7 @@ extern int x_log_obj_mutex_unlock(x_log_obj_t *_log_obj);
 extern int x_log_obj_printf(x_log_obj_t *_log_obj, char *_str);
 
 
-extern void x_log_obj_register(x_log_obj_t*_log_obj);
+extern void x_log_register(x_log_obj_t*_log_obj);
 extern void x_log_start(void);
 extern void x_log_end(void);
 
@@ -32,9 +32,9 @@ extern int x_log_add(x_log_obj_t *_log_obj, int _level, const char* const _tag,
 
 #if X_LOG_ENABLE
 
-#define X_LOG_OBJ_REGISTER(log_obj) \
+#define X_LOG_REGISTER(log_obj) \
   do {                 \
-    x_log_obj_register(log_obj);   \
+    x_log_register(log_obj);   \
   } while (0)
 
 #define X_LOG_START() \

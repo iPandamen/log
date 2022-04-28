@@ -63,7 +63,7 @@ int x_log_obj_printf(x_log_obj_t *_log_obj, char *_str) {
   return ret;
 }
 
-void x_log_obj_register(x_log_obj_t*_log_obj) {
+void x_log_register(x_log_obj_t*_log_obj) {
   x_log_obj_t *_temp_obj = _log._head;
   if(_temp_obj) {
     while(_temp_obj->_next) {

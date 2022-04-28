@@ -9,7 +9,7 @@
 int main(int argc, char* argv[])
 {
   printf("LOG_ENABLE: %d\n", X_LOG_ENABLE);
-  X_LOG_OBJ_REGISTER(&x_log_obj);
+  X_LOG_REGISTER(&x_log_obj);
   X_LOG_START();
 
   X_LOG_ERROR("DEFAULT", "Hello world!");
