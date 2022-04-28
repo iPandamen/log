@@ -1,9 +1,9 @@
 
 #include "log_core.h"
 
-static struct log_obj_list _log; 
+static log_obj_list_t _log; 
 
-int log_obj_init(struct log_obj *_obj) {
+int log_obj_init(log_obj_t *_obj) {
   int ret = -1;
   if(_obj) {
     if(_obj->_op) {
@@ -15,7 +15,7 @@ int log_obj_init(struct log_obj *_obj) {
   return ret;
 }
 
-int log_obj_exit(struct log_obj *_obj) {
+int log_obj_exit(log_obj_t *_obj) {
   int ret = -1;
   if(_obj) {
     if(_obj->_op) {
@@ -27,7 +27,7 @@ int log_obj_exit(struct log_obj *_obj) {
   return ret;
 }
 
-int log_obj_mutex_lock(struct log_obj *_obj) {
+int log_obj_mutex_lock(log_obj_t *_obj) {
   int ret = -1;
   if(_obj) {
     if(_obj->_op) {
@@ -39,7 +39,7 @@ int log_obj_mutex_lock(struct log_obj *_obj) {
   return ret;
 }
 
-int log_obj_mutex_unlock(struct log_obj *_obj) {
+int log_obj_mutex_unlock(log_obj_t *_obj) {
   int ret = -1;
   if(_obj) {
     if(_obj->_op) {
@@ -51,7 +51,7 @@ int log_obj_mutex_unlock(struct log_obj *_obj) {
   return ret;
 }
 
-int log_obj_printf(struct log_obj *_obj, char *_str) {
+int log_obj_printf(log_obj_t *_obj, char *_str) {
   int ret = -1;
   if(_obj) {
     if(_obj->_op) {
@@ -63,8 +63,8 @@ int log_obj_printf(struct log_obj *_obj, char *_str) {
   return ret;
 }
 
-void log_obj_register(struct log_obj* _obj) {
-  struct log_obj *_temp_obj = _log._head;
+void log_obj_register(log_obj_t* _obj) {
+  log_obj_t *_temp_obj = _log._head;
   if(_temp_obj) {
     while(_temp_obj->_next) {
       _temp_obj = _temp_obj->_next;
@@ -76,7 +76,7 @@ void log_obj_register(struct log_obj* _obj) {
 }
 
 void log_start(void) {
-  struct log_obj *_temp_obj = _log._head;
+  log_obj_t *_temp_obj = _log._head;
   while(_temp_obj) {
     log_obj_init(_temp_obj);
     _temp_obj = _temp_obj->_next;
@@ -84,7 +84,7 @@ void log_start(void) {
 }
 
 void log_end(void) {
-  struct log_obj *_temp_obj = _log._head;
+  log_obj_t *_temp_obj = _log._head;
   while(_temp_obj) {
     log_obj_exit(_temp_obj);
     _temp_obj = _temp_obj->_next;
@@ -129,7 +129,7 @@ static int log_string(char** buf, int _level, const char* const _tag,
   return ret;
 }
 
-int log_add(struct log_obj* _obj, int _level, const char* const _tag,
+int log_add(log_obj_t* _obj, int _level, const char* const _tag,
               const char* _file, const char* _func, int _line,
               const char* const _format, ...) {
   int ret = -1;

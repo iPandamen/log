@@ -1,13 +1,13 @@
 
 #include "log_default.h"
 
-static int default_log_obj_op_init(struct log_obj *_obj) {
+static int default_log_obj_op_init(log_obj_t *_obj) {
   if(_obj) {
 #if LOG_MUTEX_ENABLE
     LOG_MUTEX_INIT(&_obj->_mutex);
 #endif /* LOG_MUTEX_ENABLE */
 
-    struct default_log_obj_property* _property = _obj->_property;
+    default_log_obj_property_t* _property = _obj->_property;
     if(_property) {
       if(_property->_file_name) {
         _property->_fp = fopen(_property->_file_name, "a+");
@@ -21,7 +21,7 @@ static int default_log_obj_op_init(struct log_obj *_obj) {
   return 0;
 }
 
-static int default_log_obj_op_exit(struct log_obj* _obj) {
+static int default_log_obj_op_exit(log_obj_t* _obj) {
 
   if(_obj) {
 
@@ -29,7 +29,7 @@ static int default_log_obj_op_exit(struct log_obj* _obj) {
   LOG_MUTEX_DESTROY(&_obj->_mutex);
 #endif /* LOG_MUTEX_ENABLE */
 
-    struct default_log_obj_property* _property = _obj->_property;
+    default_log_obj_property_t* _property = _obj->_property;
     if(_property) {
       if(_property->_file_name) {
         if(_property->_fp) {
@@ -43,7 +43,7 @@ static int default_log_obj_op_exit(struct log_obj* _obj) {
   return 0;
 }
 
-static int default_log_obj_op_mutex_lock(struct log_obj* _obj) {
+static int default_log_obj_op_mutex_lock(log_obj_t* _obj) {
   if(_obj) {
 #if LOG_MUTEX_ENABLE
     LOG_MUTEX_LOCK(&_obj->_mutex);
@@ -52,7 +52,7 @@ static int default_log_obj_op_mutex_lock(struct log_obj* _obj) {
   return 0;
 }
 
-static int default_log_obj_op_mutex_unlock(struct log_obj* _obj) { 
+static int default_log_obj_op_mutex_unlock(log_obj_t* _obj) { 
   if(_obj) {
 #if LOG_MUTEX_ENABLE
     LOG_MUTEX_UNLOCK(&_obj->_mutex);
@@ -62,11 +62,11 @@ static int default_log_obj_op_mutex_unlock(struct log_obj* _obj) {
 }
 
 
-static int default_log_obj_op_printf(struct log_obj* _obj, char* _buf) {
+static int default_log_obj_op_printf(log_obj_t* _obj, char* _buf) {
 
   int ret = 0;
   if(_obj) {
-    struct default_log_obj_property* _property = _obj->_property;
+    default_log_obj_property_t* _property = _obj->_property;
     if(_property) {
       if(_property->_fp) {
         ret = fprintf(_property->_fp, "%s", _buf);
@@ -77,12 +77,12 @@ static int default_log_obj_op_printf(struct log_obj* _obj, char* _buf) {
 };
 
 
-static struct default_log_obj_property default_log_obj_default_property = {
+static default_log_obj_property_t default_log_obj_default_property = {
   ._fp = NULL,
   ._file_name = DEFAULT_LOG_FILE_NAME,
 };
 
-struct log_obj_operations default_log_obj_default_operations ={
+log_obj_operations_t default_log_obj_default_operations ={
   ._init = default_log_obj_op_init,
   ._exit = default_log_obj_op_exit,
   ._mutex_lock = default_log_obj_op_mutex_lock,
@@ -91,7 +91,7 @@ struct log_obj_operations default_log_obj_default_operations ={
 
 };
 
-struct log_obj default_log_obj = {
+log_obj_t default_log_obj = {
   ._name = "defaultandard log obj",
   ._property = &default_log_obj_default_property,
   ._op = &default_log_obj_default_operations,

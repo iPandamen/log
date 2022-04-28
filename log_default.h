@@ -4,13 +4,13 @@
 
 #include "log_core.h"
 
-struct default_log_obj_property {
+typedef struct __default_log_obj_property {
   FILE* _fp;
   char* _file_name;
-};
+}default_log_obj_property_t;
 
-extern struct log_obj_operations default_log_obj_default_operations;
-extern struct log_obj default_log_obj;
+extern log_obj_operations_t default_log_obj_default_operations;
+extern log_obj_t default_log_obj;
 
 #define LOG_ERROR(tag, format, ...) \
   LOG(&default_log_obj, LOG_LEVEL_ERROR, tag, format, ##__VA_ARGS__)

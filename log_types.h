@@ -3,19 +3,19 @@
 
 #include "log_config.h"
 
-struct log_obj_operations;
-struct log_obj;
+struct __log_obj_operations;
+struct __log_obj;
 
-struct log_obj_operations {
-  int (*_init)(struct log_obj *_obj);
-  int (*_exit)(struct log_obj *_obj);
+typedef struct __log_obj_operations {
+  int (*_init)(struct __log_obj *_obj);
+  int (*_exit)(struct __log_obj *_obj);
 
-  int (*_mutex_lock)(struct log_obj* _obj);
-  int (*_mutex_unlock)(struct log_obj *_obj);
-  int (*_printf)(struct log_obj* _obj, char *str);
-};
+  int (*_mutex_lock)(struct __log_obj* _obj);
+  int (*_mutex_unlock)(struct __log_obj *_obj);
+  int (*_printf)(struct __log_obj* _obj, char *str);
+}log_obj_operations_t;
 
-struct log_obj {
+typedef struct __log_obj {
   const char *_name;
   void *_property;
 
@@ -23,15 +23,15 @@ struct log_obj {
   LOG_MUTEX_TYPE _mutex;
 #endif /* LOG_MUTEX_ENABLE */
 
-  struct log_obj_operations *_op;
-  struct log_obj *_next;
-};
+  struct __log_obj_operations *_op;
+  struct __log_obj *_next;
+}log_obj_t;
 
 
-struct log_obj_list{
+typedef struct __log_obj_list{
   int _num;
-  struct log_obj *_head;
-};
+  log_obj_t *_head;
+}log_obj_list_t;
 
 typedef enum {
  LOG_LEVEL_NONE = 0,

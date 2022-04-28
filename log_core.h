@@ -13,18 +13,18 @@
 
 #include "log_types.h"
 
-extern int log_obj_init(struct log_obj *_obj);
-extern int log_obj_exit(struct log_obj *_obj);
-extern int log_obj_mutex_lock(struct log_obj *_obj);
-extern int log_obj_mutex_unlock(struct log_obj *_obj);
-extern int log_obj_printf(struct log_obj *_obj, char *_str);
+extern int log_obj_init(log_obj_t *_obj);
+extern int log_obj_exit(log_obj_t *_obj);
+extern int log_obj_mutex_lock(log_obj_t *_obj);
+extern int log_obj_mutex_unlock(log_obj_t *_obj);
+extern int log_obj_printf(log_obj_t *_obj, char *_str);
 
 
-extern void log_obj_register(struct log_obj* _obj);
+extern void log_obj_register(log_obj_t* _obj);
 extern void log_start(void);
 extern void log_end(void);
 
-extern int log_add(struct log_obj* _log, int _level, const char* const _tag,
+extern int log_add(log_obj_t* _log, int _level, const char* const _tag,
                      const char* _file, const char* _func, int _line,
                      const char* const format, ...) __attribute__((format(printf, 7, 8)));
 
