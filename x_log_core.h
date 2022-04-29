@@ -52,10 +52,7 @@ extern int x_log_add(x_log_obj_t *_log_obj, int _level, const char* const _tag,
 
 #define X_LOG(log_obj, level, tag, format, ...)                                 \
   do {                                                                    \
-    if (level <= x_log_get_level(log_obj))  {                                             \
-      x_log_add(log_obj, level, tag, __FILE__, __FUNCTION__, __LINE__, format, \
-               ##__VA_ARGS__);                                            \
-    }                                                                     \
+    x_log_add(log_obj, level, tag, __FILE__, __FUNCTION__, __LINE__, format, ##__VA_ARGS__);                                            \
   } while (0)
 
 #else

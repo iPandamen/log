@@ -2,7 +2,6 @@
 #include "x_log_core.h"
 
 static x_log_t _log; 
-static x_log_level_t _log_level;
 
 int x_log_obj_init(x_log_obj_t *_log_obj) {
   int ret = -1;
@@ -128,7 +127,7 @@ static int x_log_string(char** buf, int _level, const char* const _tag,
    */
   int ret = 0;
   static const char* const _x_log_level_str[] = {
-    "NONE", "ERROR", "WARNING", "INFO", "DEBUG", "VERBOSE", NULL};
+    "NONE", "USER", "ERROR", "WARNING", "INFO", "TRACE", "VERBOSE", NULL};
   
   if(_level < X_LOG_LEVEL_NUM) {
     char _timestamp[32] = {0};
@@ -154,34 +153,30 @@ int x_log_add(x_log_obj_t*_log_obj, int _level, const char* const _tag,
               const char* const _format, ...) {
   int ret = -1;
   if (_log_obj) {
-    char* _buf = NULL;
-    va_list va_l;
-    va_start(va_l, _format);
-    x_log_string(&_buf, _level, _tag, _file, _func, _line, _format, va_l);
+    if(_level <= _log_obj->_level) {
+      char* _buf = NULL;
+      va_list va_l;
+      va_start(va_l, _format);
+      x_log_string(&_buf, _level, _tag, _file, _func, _line, _format, va_l);
 
-    if (_buf) {
-
-#if LOG_MUTEX_ENABLE
-      x_log_obj_mutex_lock(_log_obj);
-#endif /* LOG_MUTEX_ENABLE */
-
-      ret = x_log_obj_printf(_log_obj, _buf);
+      if (_buf) {
 
 #if LOG_MUTEX_ENABLE
-      x_log_obj_mutex_unlock(_log_obj);
+        x_log_obj_mutex_lock(_log_obj);
 #endif /* LOG_MUTEX_ENABLE */
-      free(_buf);
+
+        ret = x_log_obj_printf(_log_obj, _buf);
+
+#if LOG_MUTEX_ENABLE
+        x_log_obj_mutex_unlock(_log_obj);
+#endif /* LOG_MUTEX_ENABLE */
+        free(_buf);
+      }
+      va_end(va_l);
     }
-    va_end(va_l);
   }
   return ret;
 }
-
-
-
-
-
-
 
 
 

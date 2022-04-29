@@ -12,14 +12,16 @@ typedef struct __x_log_obj_property {
 extern x_log_obj_operations_t x_log_obj_default_operations;
 extern x_log_obj_t x_log_obj;
 
+#define X_LOG_USER(tag, format, ...) \
+  X_LOG(&x_log_obj, X_LOG_LEVEL_USER, tag, format, ##__VA_ARGS__)
 #define X_LOG_ERROR(tag, format, ...) \
   X_LOG(&x_log_obj, X_LOG_LEVEL_ERROR, tag, format, ##__VA_ARGS__)
 #define X_LOG_WARNING(tag, format, ...) \
   X_LOG(&x_log_obj, X_LOG_LEVEL_WARNING, tag, format, ##__VA_ARGS__)
 #define X_LOG_INFO(tag, format, ...) \
   X_LOG(&x_log_obj, X_LOG_LEVEL_INFO, tag, format, ##__VA_ARGS__)
-#define X_LOG_DEBUG(tag, format, ...) \
-  X_LOG(&x_log_obj, X_LOG_LEVEL_DEBUG, tag, format, ##__VA_ARGS__)
+#define X_LOG_TRACE(tag, format, ...) \
+  X_LOG(&x_log_obj, X_LOG_LEVEL_TRACE, tag, format, ##__VA_ARGS__)
 #define X_LOG_VERBOSE(tag, format, ...) \
   X_LOG(&x_log_obj, X_LOG_LEVEL_VERBOSE, tag, format, ##__VA_ARGS__)
 
