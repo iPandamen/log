@@ -2,6 +2,7 @@
 #include "x_log_core.h"
 
 static x_log_t _log; 
+static x_log_level_t _log_level;
 
 int x_log_obj_init(x_log_obj_t *_log_obj) {
   int ret = -1;
@@ -90,6 +91,25 @@ void x_log_end(void) {
     _temp_obj = _temp_obj->_next;
   }
 }
+
+
+int x_log_set_level(x_log_obj_t *_log_obj, x_log_level_t _level) {
+  int ret = -1;
+  if(_log_obj) {
+    _log_obj->_level = _level;
+    ret = 0;
+  }
+  return ret;
+}
+
+int x_log_get_level(x_log_obj_t *_log_obj) {
+  int _level = -1;
+  if(_log_obj) {
+    _level = _log_obj->_level;
+  }
+  return _level;
+}
+
 
 static int x_log_timestamp(char* _buf, int _b_len) {
   struct tm* _tm = NULL;

@@ -7,6 +7,8 @@ static int x_log_obj_op_init(x_log_obj_t *_log_obj) {
     LOG_MUTEX_INIT(&_obj->_mutex);
 #endif /* LOG_MUTEX_ENABLE */
 
+    x_log_set_level(_log_obj, X_LOG_LEVEL);
+
     x_log_obj_property_t* _property = _log_obj->_property;
     if(_property) {
       if(_property->_file_name) {
@@ -17,7 +19,6 @@ static int x_log_obj_op_init(x_log_obj_t *_log_obj) {
       }
     }
   }
-
   return 0;
 }
 

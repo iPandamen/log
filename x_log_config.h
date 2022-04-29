@@ -2,9 +2,6 @@
 #ifndef __LOG_CONFIG_H__
 #define __LOG_CONFIG_H__
 
-
-
-
 #ifndef  X_LOG_ENABLE
 #define X_LOG_ENABLE 1
 #endif /* X_LOG_ENABLE */

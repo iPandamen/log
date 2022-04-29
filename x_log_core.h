@@ -24,6 +24,9 @@ extern void x_log_register(x_log_obj_t*_log_obj);
 extern void x_log_start(void);
 extern void x_log_end(void);
 
+extern int x_log_set_level(x_log_obj_t *_log_obj, x_log_level_t _level);
+extern int x_log_get_level(x_log_obj_t *_log_obj);
+
 extern int x_log_add(x_log_obj_t *_log_obj, int _level, const char* const _tag,
                      const char* _file, const char* _func, int _line,
                      const char* const format, ...) __attribute__((format(printf, 7, 8)));
@@ -49,7 +52,7 @@ extern int x_log_add(x_log_obj_t *_log_obj, int _level, const char* const _tag,
 
 #define X_LOG(log_obj, level, tag, format, ...)                                 \
   do {                                                                    \
-    if (level <= X_LOG_LEVEL) {                                             \
+    if (level <= x_log_get_level(log_obj))  {                                             \
       x_log_add(log_obj, level, tag, __FILE__, __FUNCTION__, __LINE__, format, \
                ##__VA_ARGS__);                                            \
     }                                                                     \

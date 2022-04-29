@@ -6,6 +6,16 @@
 struct __x_log_obj_operations;
 struct __x_log_obj;
 
+typedef enum {
+ X_LOG_LEVEL_NONE = 0,
+ X_LOG_LEVEL_ERROR = 1,
+ X_LOG_LEVEL_WARNING = 2,
+ X_LOG_LEVEL_INFO = 3,
+ X_LOG_LEVEL_DEBUG = 4,
+ X_LOG_LEVEL_VERBOSE = 5,
+ X_LOG_LEVEL_NUM
+}x_log_level_t;
+
 typedef struct __x_log_obj_operations {
   int (*_init)(struct __x_log_obj *_obj);
   int (*_exit)(struct __x_log_obj *_obj);
@@ -17,6 +27,8 @@ typedef struct __x_log_obj_operations {
 
 typedef struct __x_log_obj {
   const char *_name;
+  x_log_level_t _level;
+
   void *_property;
 
 #if X_LOG_MUTEX_ENABLE
@@ -32,16 +44,6 @@ typedef struct __x_log{
   int _num;
   x_log_obj_t *_head;
 }x_log_t;
-
-typedef enum {
- X_LOG_LEVEL_NONE = 0,
- X_LOG_LEVEL_ERROR = 1,
- X_LOG_LEVEL_WARNING = 2,
- X_LOG_LEVEL_INFO = 3,
- X_LOG_LEVEL_DEBUG = 4,
- X_LOG_LEVEL_VERBOSE = 5,
- X_LOG_LEVEL_NUM
-}x_log_level_t;
 
 
 #endif /* __X_LOG_TYPE_H__ */
