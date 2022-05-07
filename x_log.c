@@ -14,9 +14,6 @@ static int x_log_obj_op_init(x_log_obj_t *_log_obj) {
       if(_property->_file_name) {
         _property->_fp = fopen(_property->_file_name, "a+");
       }
-      if(!_property->_fp) {
-        _property->_fp = stdout;
-      }
     }
   }
   return 0;
@@ -71,6 +68,8 @@ static int x_log_obj_op_printf(x_log_obj_t* _log_obj, char* _buf) {
     if(_property) {
       if(_property->_fp) {
         ret = fprintf(_property->_fp, "%s", _buf);
+      } else {
+        ret = fprintf(stdout, "%s", _buf);
       }
     }
   }
@@ -94,6 +93,7 @@ x_log_obj_operations_t x_log_obj_default_operations ={
 
 x_log_obj_t x_log_obj = {
   ._name = "x_log_obj",
+  ._level = X_LOG_LEVEL,
   ._property = &x_log_obj_default_property,
   ._op = &x_log_obj_default_operations,
   ._next = NULL,

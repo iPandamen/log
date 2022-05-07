@@ -91,7 +91,6 @@ void x_log_end(void) {
   }
 }
 
-
 int x_log_set_level(x_log_obj_t *_log_obj, x_log_level_t _level) {
   int ret = -1;
   if(_log_obj) {
