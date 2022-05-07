@@ -12,6 +12,7 @@
 #endif /* X_LOG_DEFAULT_FILE_NAME */
 
 #ifndef X_LOG_LEVEL
+#warning "The X_LOG_LEVEL define is not defined, it will be set as default value X_LOG_LEVEL_WARNING"
 #define X_LOG_LEVEL X_LOG_LEVEL_WARNING
 #endif /* X_LOG_LEVEL */
 
