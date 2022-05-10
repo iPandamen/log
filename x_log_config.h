@@ -1,6 +1,6 @@
 
-#ifndef __LOG_CONFIG_H__
-#define __LOG_CONFIG_H__
+#ifndef __X_LOG_CONFIG_H__
+#define __X_LOG_CONFIG_H__
 
 #ifndef  X_LOG_ENABLE
 #define X_LOG_ENABLE 1
@@ -34,7 +34,7 @@
 
 #endif
 
-#endif /* __LOG_CONFIG_H__ */
+#endif /* __X_LOG_CONFIG_H__ /
 
 
 
