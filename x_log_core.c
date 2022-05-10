@@ -133,10 +133,18 @@ static int x_log_string(char** buf, int _level, const char* const _tag,
     x_log_timestamp(_timestamp, sizeof(_timestamp));
 
     char* _t_buf = NULL;
-    if(asprintf(&_t_buf, "[ %s ][ %s ][ %s ] (%s, in %s line #%d):\r\n%s\r\n",
-                _timestamp, _x_log_level_str[_level], _tag, _func, _file, _line,
-                _format) < 0) {
-      ret = -1;
+
+    if(_tag) {
+      ret = asprintf(&_t_buf, "[ %s ][ %s ][ %s ] (%s, in %s line #%d):\r\n%s\r\n",
+                     _timestamp, _x_log_level_str[_level], _tag, _func, _file, _line,
+                     _format);
+    } else {
+      ret = asprintf(&_t_buf, "[ %s ][ %s ](%s, in %s line #%d):\r\n%s\r\n",
+                     _timestamp, _x_log_level_str[_level], _func, _file, _line,
+                     _format);
+    }
+
+    if(ret < 0) {
     } else {
       if (_t_buf) {
         ret = vasprintf(buf, _t_buf, va_l);

@@ -18,7 +18,7 @@ int main(int argc, char* argv[])
   printf("X_LOG_LEVEL: %d\n", X_LOG_LEVEL);
   printf("x_log_obj level: %d\n", x_log_get_level(&x_log_obj));
 
-  // x_log_set_level(&x_log_obj, X_LOG_LEVEL_VERBOSE);
+  x_log_set_level(&x_log_obj, X_LOG_LEVEL_VERBOSE);
   // printf("x_log_obj level: %d\n", x_log_get_level(&x_log_obj));
 
   X_LOG_USER("EXAMPLE", "Hello world!");
@@ -28,7 +28,6 @@ int main(int argc, char* argv[])
   X_LOG_TRACE("EXAMPLE", "Hello world!");
   X_LOG_VERBOSE("EXAMPLE", "Hello world!");
 
-  
   // X_ASSERT_NULL(0);
   // X_ASSERT_MALLOC(0);
   //
