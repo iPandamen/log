@@ -27,6 +27,7 @@ int main(int argc, char* argv[])
   X_LOG_INFO("EXAMPLE", "Hello world!");
   X_LOG_TRACE("EXAMPLE", "Hello world!");
   X_LOG_VERBOSE("EXAMPLE", "Hello world!");
+  X_LOG_VERBOSE(NULL, "Hello world!");
 
   // X_ASSERT_NULL(0);
   // X_ASSERT_MALLOC(0);

@@ -34,7 +34,7 @@
 
 #endif
 
-#endif /* __X_LOG_CONFIG_H__ /
+#endif /* __X_LOG_CONFIG_H__ */
 
 
 
