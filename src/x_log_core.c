@@ -3,6 +3,8 @@
 
 static x_log_t _log; 
 
+__thread struct timeval last_log_time;
+
 int x_log_obj_init(x_log_obj_t *_log_obj) {
   int ret = -1;
   if(_log_obj) {

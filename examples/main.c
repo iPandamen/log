@@ -4,9 +4,9 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "../x_log.h"
+#include "x_log.h"
 
-#include "../x_assert.h"
+#include "x_assert.h"
 
 
 int main(int argc, char* argv[])
@@ -18,7 +18,7 @@ int main(int argc, char* argv[])
   printf("X_LOG_LEVEL: %d\n", X_LOG_LEVEL);
   printf("x_log_obj level: %d\n", x_log_get_level(&x_log_obj));
 
-  x_log_set_level(&x_log_obj, X_LOG_LEVEL_VERBOSE);
+  // x_log_set_level(&x_log_obj, X_LOG_LEVEL_VERBOSE);
   // printf("x_log_obj level: %d\n", x_log_get_level(&x_log_obj));
 
   X_LOG_USER("EXAMPLE", "Hello world!");

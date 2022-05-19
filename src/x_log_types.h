@@ -1,8 +1,6 @@
 #ifndef __X_LOG_TYPE_H__
 #define __X_LOG_TYPE_H__
 
-#include "x_log_config.h"
-
 struct __x_log_obj_operations;
 struct __x_log_obj;
 

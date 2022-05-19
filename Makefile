@@ -1,8 +1,15 @@
 
+
+MAJOR = 0
+MINJOR = 0
+REVISE := 0
+
+
 TARGET_NAMES = examples/main
 
 # PROJECT
-PROJECT_CURRENT_PATH = ${PWD}
+
+PROJECT_ROOT_DIR = ${PWD}
 
 # compiler
 ifeq (${ARHC},arm)
@@ -17,44 +24,54 @@ COM_FLAGS = -Wall -O2 -g
 C_FLAGS   = $(COM_FLAGS) -std=c11
 CPP_FLAGS = $(COM_FLAGS) -std=c++11
 
-C_INCLUDES = -I./src/
+MAIN_SRCS = ./examples/main.c
+MAIN_OBJS = $(MAIN_SRCS:.c=.o)
 
-C_SOURCES = $(wildcard ./src/*.c)
+C_SRCS += $(wildcard ./src/*.c)
 
-C_OBJECTS = $(patsubst %.c, %.o, ${C_SOURCES})
+C_OBJS = $(patsubst %.c, %.o, ${C_SRCS})
+
+C_FLAGS += -I./src
 
 C_LIBS += -L. \
 					
-.PHONY: all before_build after_build debug release clean ${TARGET_NAMES}
+.PHONY: all before_build after_build release clean ${TARGET_NAMES}
 
-all: before_build debug after_build 
+all: before_build default after_build 
 
 before_build: 
 	@echo "====> ${@}"
-	@echo C_INCLUDES: ${C_INCLUDES}
-	@echo C_SOURCES: ${C_SOURCES}
-	@echo C_OBJECTS: ${C_OBJECTS}
+	@echo PROJECT_ROOT_DIR: ${PROJECT_ROOT_DIR}
+	@echo MAIN_SRCS: ${MAIN_SRCS}
+	@echo MAIN_OBJS: ${MAIN_OBJS}
+	@echo C_SRCS: ${C_SRCS}
+	@echo C_OBJS: ${C_OBJS}
 	@echo C_LIBS: ${C_LIBS}
+	@echo C_FLAGS: ${C_FLAGS}
+	@echo VPATH: ${VPATH}
 
 after_build: 
 	@echo ""
 	@echo "====> ${@}"
 
-# debug: C_FLAGS+=-g
-debug: ${TARGET_NAMES}
+default: ${TARGET_NAMES}
 
 release: ${TARGET_NAMES}
+	strip ${TARGET_NAMES} 
 
-${TARGET_NAMES}: %: %.o ${C_OBJECTS}
+${TARGET_NAMES}: ${MAIN_OBJS} ${C_OBJS}
 	@echo ""
 	@echo "====> ${@} "
-	${CC} -o $@ $^ ${C_FLAGS} ${C_INCLUDES}
+	${CC} -o $@ $^ ${C_FLAGS} 
+
+
 
 %.o: %.c
-	${CC} -c -o $@ $^ ${C_FLAGS} ${C_INCLUDES}
+	echo $@
+	${CC} ${C_FLAGS} -c $< -o $@ 
 
 clean:
 	${RM} ${TARGET_NAMES}
 	${RM} *.o
-	${RM} ${C_OBJECTS}
+	${RM} ${C_OBJS}
 

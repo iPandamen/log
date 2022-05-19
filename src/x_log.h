@@ -2,6 +2,7 @@
 #ifndef __X_LOG_STD_H__
 #define __X_LOG_STD_H__
 
+#include "x_log_config.h"
 #include "x_log_core.h"
 
 typedef struct __x_log_obj_property {
