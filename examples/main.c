@@ -4,19 +4,17 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "x_log.h"
+#define LOG_ENABLE 1
 
-#include "x_assert.h"
-
+#include "../log.h"
 
 int main(int argc, char* argv[])
 {
-  printf("X_LOG_ENABLE: %d\n", X_LOG_ENABLE);
-  X_LOG_REGISTER(&x_log_obj);
-  X_LOG_START();
-
-  printf("X_LOG_LEVEL: %d\n", X_LOG_LEVEL);
-  printf("x_log_obj level: %d\n", x_log_get_level(&x_log_obj));
+  LOG_REGISTER(&x_log_obj);
+  LOG_START();
+  //
+  // printf("X_LOG_LEVEL: %d\n", X_LOG_LEVEL);
+  // printf("x_log_obj level: %d\n", x_log_get_level(&x_log_obj));
 
   // x_log_set_level(&x_log_obj, X_LOG_LEVEL_VERBOSE);
   // printf("x_log_obj level: %d\n", x_log_get_level(&x_log_obj));
@@ -28,7 +26,7 @@ int main(int argc, char* argv[])
   X_LOG_TRACE("EXAMPLE", "Hello world!");
   X_LOG_VERBOSE("EXAMPLE", "Hello world!");
   X_LOG_VERBOSE(NULL, "Hello world!");
-
+  //
   // X_ASSERT_NULL(0);
   // X_ASSERT_MALLOC(0);
   //
@@ -57,6 +55,6 @@ int main(int argc, char* argv[])
   // _end = (double)clock() / CLOCKS_PER_SEC;
   // printf("1, diff: %lf s\n", _end - _start);
   //
-  X_LOG_END();
+  LOG_END();
   return 0;
 }

@@ -1,10 +1,4 @@
 
-
-MAJOR = 0
-MINJOR = 0
-REVISE := 0
-
-
 TARGET_NAMES = examples/main
 
 # PROJECT
@@ -27,11 +21,13 @@ CPP_FLAGS = $(COM_FLAGS) -std=c++11
 MAIN_SRCS = ./examples/main.c
 MAIN_OBJS = $(MAIN_SRCS:.c=.o)
 
-C_SRCS += $(wildcard ./src/*.c)
+C_SRCS += $(wildcard ./src/core/*.c) \
+					$(wildcard ./src/port/*.c) 
 
 C_OBJS = $(patsubst %.c, %.o, ${C_SRCS})
 
-C_FLAGS += -I./src
+C_FLAGS +=
+					
 
 C_LIBS += -L. \
 					
