@@ -90,7 +90,7 @@ static int x_log_obj_op_printf(log_obj_t* _log_obj, char* _buf) {
 
 static x_log_obj_property_t x_log_obj_default_property = {
   ._fp = NULL,
-  ._file_name = X_LOG_DEFAULT_FILE_NAME,
+  ._file_name = NULL,
 };
 
 log_obj_operations_t x_log_obj_default_operations ={
@@ -106,7 +106,7 @@ log_obj_operations_t x_log_obj_default_operations ={
 
 log_obj_t x_log_obj = {
   ._name = "x_log_obj",
-  ._level = X_LOG_LEVEL,
+  ._level = LOG_LEVEL_WARNING,
   ._property = &x_log_obj_default_property,
   ._op = &x_log_obj_default_operations,
   ._next = NULL,

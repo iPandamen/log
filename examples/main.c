@@ -10,8 +10,11 @@
 
 int main(int argc, char* argv[])
 {
+
   LOG_REGISTER(&x_log_obj);
   LOG_START();
+
+  printf("X_LOG_LEVEL: %d\n",log_get_level(&x_log_obj));
   //
   // printf("X_LOG_LEVEL: %d\n", X_LOG_LEVEL);
   // printf("x_log_obj level: %d\n", x_log_get_level(&x_log_obj));

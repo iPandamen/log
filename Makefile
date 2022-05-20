@@ -63,7 +63,6 @@ ${TARGET_NAMES}: ${MAIN_OBJS} ${C_OBJS}
 
 
 %.o: %.c
-	echo $@
 	${CC} ${C_FLAGS} -c $< -o $@ 
 
 clean:
