@@ -6,27 +6,27 @@ static log_t _log;
 __thread struct timeval last_log_time;
 
 int log_obj_init(log_obj_t *_log_obj) {
-  int ret = -1;
+  int rc = -1;
   if(_log_obj) {
     if(_log_obj->_op) {
       if(_log_obj->_op->_init) {
-        ret =_log_obj->_op->_init(_log_obj);
+        rc =_log_obj->_op->_init(_log_obj);
       }
     }
   }
-  return ret;
+  return rc;
 }
 
 int log_obj_exit(log_obj_t *_log_obj) {
-  int ret = -1;
+  int rc = -1;
   if(_log_obj) {
     if(_log_obj->_op) {
       if(_log_obj->_op->_exit) {
-        ret =_log_obj->_op->_exit(_log_obj);
+        rc =_log_obj->_op->_exit(_log_obj);
       }
     }
   }
-  return ret;
+  return rc;
 }
 
 int log_obj_mutex_init(log_obj_t *_log_obj) {
@@ -69,8 +69,10 @@ int log_obj_printf(log_obj_t *_log_obj, char *_str) {
   return rc;
 }
 
-void log_register(log_obj_t*_log_obj) {
+void log_register(log_obj_t* _log_obj, log_level_t _level) {
   log_obj_t *_temp_obj = _log._head;
+
+  log_set_level(_log_obj, _level);
   if(_temp_obj) {
     while(_temp_obj->_next) {
       _temp_obj = _temp_obj->_next;
@@ -100,12 +102,12 @@ void log_end(void) {
 }
 
 int log_set_level(log_obj_t *_log_obj, log_level_t _level) {
-  int ret = -1;
+  int rc = -1;
   if(_log_obj) {
     _log_obj->_level = _level;
-    ret = 0;
+    rc = 0;
   }
-  return ret;
+  return rc;
 }
 
 int log_get_level(log_obj_t *_log_obj) {
@@ -132,7 +134,7 @@ static int log_string(char** buf, int _level, const char* const _tag,
    * @brief the prompt string of corresponding log level
    *
    */
-  int ret = 0;
+  int rc = 0;
   static const char* const _log_level_str[] = {
     "NONE", "USER", "ERROR", "WARNING", "INFO", "TRACE", "VERBOSE", NULL};
   
@@ -143,30 +145,30 @@ static int log_string(char** buf, int _level, const char* const _tag,
     char* _t_buf = NULL;
 
     if(_tag) {
-      ret = asprintf(&_t_buf, "[ %s ][ %s ][ %s ] (%s, in %s line #%d):\r\n%s\r\n",
+      rc = asprintf(&_t_buf, "[ %s ][ %s ][ %s ] (%s, in %s line #%d):\r\n%s\r\n",
                      _timestamp, _log_level_str[_level], _tag, _func, _file, _line,
                      _format);
     } else {
-      ret = asprintf(&_t_buf, "[ %s ][ %s ](%s, in %s line #%d):\r\n%s\r\n",
+      rc = asprintf(&_t_buf, "[ %s ][ %s ](%s, in %s line #%d):\r\n%s\r\n",
                      _timestamp, _log_level_str[_level], _func, _file, _line,
                      _format);
     }
 
-    if(ret < 0) {
+    if(rc < 0) {
     } else {
       if (_t_buf) {
-        ret = vasprintf(buf, _t_buf, va_l);
+        rc = vasprintf(buf, _t_buf, va_l);
         free(_t_buf);
       }
     }
   }
-  return ret;
+  return rc;
 }
 
 int log_add(log_obj_t*_log_obj, int _level, const char* const _tag,
               const char* _file, const char* _func, int _line,
               const char* const _format, ...) {
-  int ret = -1;
+  int rc = -1;
   if (_log_obj) {
     if(_level <= _log_obj->_level) {
       char* _buf = NULL;
@@ -177,14 +179,14 @@ int log_add(log_obj_t*_log_obj, int _level, const char* const _tag,
       if (_buf) {
 
         log_obj_mutex_lock(_log_obj);
-        ret = log_obj_printf(_log_obj, _buf);
+        rc = log_obj_printf(_log_obj, _buf);
         log_obj_mutex_unlock(_log_obj);
         free(_buf);
       }
       va_end(va_l);
     }
   }
-  return ret;
+  return rc;
 }
 
 

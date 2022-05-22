@@ -24,7 +24,7 @@ extern int log_obj_mutex_destroy(log_obj_t *_log_obj);
 extern int log_obj_printf(log_obj_t *_log_obj, char *_str);
 
 
-extern void log_register(log_obj_t*_log_obj);
+extern void log_register(log_obj_t*_log_obj, log_level_t _level);
 extern void log_start(void);
 extern void log_end(void);
 
@@ -39,9 +39,9 @@ extern int log_add(log_obj_t *_log_obj, int _level, const char* const _tag,
 
 #if LOG_ENABLE
 
-#define LOG_REGISTER(log_obj) \
+#define LOG_REGISTER(log_obj, level) \
   do {                 \
-    log_register(log_obj);   \
+    log_register(log_obj, level);   \
   } while (0)
 
 #define LOG_START() \
@@ -61,7 +61,7 @@ extern int log_add(log_obj_t *_log_obj, int _level, const char* const _tag,
 
 #else
 
-#define LOG_REGISTER(log_obj)
+#define LOG_REGISTER(log_obj, level)
 #define LOG_START()
 #define LOG_END()
 #define LOG(log_obj, level, tag, format, ...)
