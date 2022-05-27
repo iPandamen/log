@@ -6,10 +6,8 @@ static int x_log_obj_op_init(log_obj_t *_log_obj) {
   if(_log_obj) {
 
     x_log_obj_property_t* _property = _log_obj->_property;
-    if(_property) {
-      if(_property->_file_name) {
-        _property->_fp = fopen(_property->_file_name, "a+");
-      }
+    if(_property && _property->_file_name) {
+      _property->_fp = fopen(_property->_file_name, "a+");
     }
   }
   return 0;
@@ -19,14 +17,8 @@ static int x_log_obj_op_exit(log_obj_t* _log_obj) {
 
   if(_log_obj) {
     x_log_obj_property_t* _property = _log_obj->_property;
-    if(_property) {
-      if(_property->_file_name) {
-        if(_property->_fp) {
-          if(_property->_fp != stdout) {
-            fclose(_property->_fp);
-          }
-        }
-      }
+    if(_property && _property->_file_name && _property->_fp ) {
+      fclose(_property->_fp);
     }
   }
   return 0;
@@ -73,15 +65,13 @@ static int x_log_obj_op_mutex_destroy(log_obj_t* _log_obj) {
 
 static int x_log_obj_op_printf(log_obj_t* _log_obj, char* _buf) {
 
-  int ret = 0;
+  int ret = -1;
   if(_log_obj) {
     x_log_obj_property_t* _property = _log_obj->_property;
-    if(_property) {
-      if(_property->_fp) {
-        ret = fprintf(_property->_fp, "%s", _buf);
-      } else {
-        ret = fprintf(stdout, "%s", _buf);
-      }
+    if(_property && _property->_fp) {
+      ret = fprintf(_property->_fp, "%s", _buf);
+    } else {
+      ret = fprintf(stdout, "%s", _buf);
     }
   }
   return ret;

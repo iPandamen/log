@@ -73,6 +73,7 @@ void log_register(log_obj_t* _log_obj, log_level_t _level) {
   log_obj_t *_temp_obj = _log._head;
 
   log_set_level(_log_obj, _level);
+
   if(_temp_obj) {
     while(_temp_obj->_next) {
       _temp_obj = _temp_obj->_next;
@@ -145,11 +146,11 @@ static int log_string(char** buf, int _level, const char* const _tag,
     char* _t_buf = NULL;
 
     if(_tag) {
-      rc = asprintf(&_t_buf, "[ %s ][ %s ][ %s ] (%s, in %s line #%d):\r\n%s\r\n",
+      rc = asprintf(&_t_buf, "[ %s ][ %s ][ %s ] ( %s in %s:%d )\r\n%s\r\n",
                      _timestamp, _log_level_str[_level], _tag, _func, _file, _line,
                      _format);
     } else {
-      rc = asprintf(&_t_buf, "[ %s ][ %s ](%s, in %s line #%d):\r\n%s\r\n",
+      rc = asprintf(&_t_buf, "[ %s ][ %s ]( %s in %s:%d )\r\n%s\r\n",
                      _timestamp, _log_level_str[_level], _func, _file, _line,
                      _format);
     }
