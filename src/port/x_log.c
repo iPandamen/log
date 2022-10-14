@@ -2,103 +2,68 @@
 
 #include "x_log.h"
 
-static int x_log_obj_op_init(log_obj_t *_log_obj) {
-  if(_log_obj) {
-
-    x_log_obj_property_t* _property = _log_obj->_property;
-    if(_property && _property->_file_name) {
-      _property->_fp = fopen(_property->_file_name, "a+");
-    }
-  }
-  return 0;
+x_log_obj_t *x_log_obj_new(void) {
+  
+  return NULL;
 }
 
-static int x_log_obj_op_exit(log_obj_t* _log_obj) {
+void x_log_obj_del(x_log_obj_t *_obj){
 
-  if(_log_obj) {
-    x_log_obj_property_t* _property = _log_obj->_property;
-    if(_property && _property->_file_name && _property->_fp ) {
-      fclose(_property->_fp);
-    }
-  }
-  return 0;
 }
 
-static int x_log_obj_op_mutex_init(log_obj_t* _log_obj) {
-
-  int rc = -1;
-  if(_log_obj) {
-    _log_obj->_mutex = malloc(sizeof(pthread_mutex_t));
-    if(_log_obj->_mutex) {
-      rc = pthread_mutex_init(_log_obj->_mutex, NULL);
-    }
-  }
-  return rc;
-}
-
-static int x_log_obj_op_mutex_lock(log_obj_t* _log_obj) {
-  int rc = -1;
-  if(_log_obj) {
-    rc = pthread_mutex_lock(_log_obj->_mutex);
-  }
-  return rc;
-}
-
-static int x_log_obj_op_mutex_unlock(log_obj_t* _log_obj) { 
-  int rc = -1;
-  if(_log_obj) {
-    rc = pthread_mutex_unlock(_log_obj->_mutex);
-  }
-  return rc; 
-}
-
-static int x_log_obj_op_mutex_destroy(log_obj_t* _log_obj) {
-  int rc = -1;
-  if(_log_obj) {
-    if(_log_obj->_mutex) {
-      rc = pthread_mutex_destroy(_log_obj->_mutex);
-      free(_log_obj->_mutex);
-    }
-  }
-  return rc;
-}
-
-static int x_log_obj_op_printf(log_obj_t* _log_obj, char* _buf) {
-
-  int ret = -1;
-  if(_log_obj) {
-    x_log_obj_property_t* _property = _log_obj->_property;
-    if(_property && _property->_fp) {
-      ret = fprintf(_property->_fp, "%s", _buf);
+int x_log_obj_init(x_log_obj_t* _obj) {
+  if (_obj) {
+    if (_obj->_path) {
+      _obj->_fp = fopen(_obj->_path, "a+");
     } else {
-      ret = fprintf(stdout, "%s", _buf);
+      _obj->_fp = stdout;
     }
   }
-  return ret;
+  return 0;
+}
+
+int x_log_obj_reset(x_log_obj_t* _obj) {
+  x_log_obj_exit(_obj);
+  x_log_obj_init(_obj);
+}
+
+int x_log_obj_exit(x_log_obj_t* _obj) {
+  if (_obj) {
+    if (_obj->_fp != stdout) {
+      fclose(_obj->_fp);
+    }
+    _obj->_fp = -1;
+  }
+  return 0;
+}
+
+int x_log_obj_printf(x_log_obj_t* _obj, const char* _str) {
+  if (_obj) {
+    if (_obj->_fp != -1) {
+      fprintf(_obj->_fp, _str);
+    }
+  }
+  return 0;
+}
+
+int x_log_obj_set_path(x_log_obj_t* _obj, const char* _path) {
+  if (_obj) {
+    _obj->_path = _path;
+  }
+  return 0;
+}
+
+const char* x_log_obj_get_path(x_log_obj_t* _obj) {
+  const char* _path = NULL;
+  if (_obj) {
+    _path = _obj->_path;
+  }
+  return _path;
+}
+
+log_obj_operations_t x_log_obj_operations = {
+  ._init = x_log_obj_init,
+  ._exit = x_log_obj_exit,
+  ._reset = x_log_obj_reset,
+  ._printf = x_log_obj_printf,
 };
-
-
-static x_log_obj_property_t x_log_obj_default_property = {
-  ._fp = NULL,
-  ._file_name = NULL,
-};
-
-log_obj_operations_t x_log_obj_default_operations ={
-  ._init = x_log_obj_op_init,
-  ._exit = x_log_obj_op_exit,
-  ._mutex_init = x_log_obj_op_mutex_init,
-  ._mutex_lock = x_log_obj_op_mutex_lock,
-  ._mutex_unlock = x_log_obj_op_mutex_unlock,
-  ._mutex_destroy = x_log_obj_op_mutex_destroy,
-  ._printf = x_log_obj_op_printf,
-
-};
-
-log_obj_t x_log_obj = {
-  ._name = "x_log_obj",
-  ._level = LOG_LEVEL_WARNING,
-  ._property = &x_log_obj_default_property,
-  ._op = &x_log_obj_default_operations,
-  ._next = NULL,
-};
-

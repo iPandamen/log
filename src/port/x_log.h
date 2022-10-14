@@ -29,6 +29,18 @@ extern log_obj_t x_log_obj;
 #define X_LOG_VERBOSE(tag, format, ...) \
   LOG(&x_log_obj, LOG_LEVEL_VERBOSE, tag, format, ##__VA_ARGS__)
 
-#endif /* __X_LOG_STD_H__ */
+#include "log_core.h"
+
+typedef struct __x_log_obj {
+  log_obj_t *_obj;
+  const char *_path;
+  FILE *_fp;
+}x_log_obj_t;
+
+
+
+
+
+#endif /* __X_LOG_H__ */
 
 
